@@ -1,4 +1,0 @@
-108.165.255.238:2038#原生=Hong Kong · Kowloon · Hong Kong · CF=亚太 · 香港
-216.24.184.56:443#原生=United States · California · Los Angeles · CF=北美洲 · 美国洛杉矶
-185.200.65.176:10443#原生=Japan · Tokyo · Tokyo · CF=亚太 · 日本东京
-116.206.178.154:19436#原生=Hong Kong · Yau Tsim Mong District · Mong Kok · CF=亚太 · 香港
