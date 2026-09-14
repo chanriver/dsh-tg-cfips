@@ -1,6 +1,6 @@
 # DSH-TG-CFIPS
 
-每天北京时间 23:00 自动从 Telegram 公开频道 **[@danfeng2](https://t.me/danfeng2)** 抓取**最新 4 条** Cloudflare 优选 IP，**带地理位置标注**（IP 原生位置 + CF 落地位置）。
+每天北京时间 23:00 自动从 Telegram 公开频道 **[@danfeng2](https://t.me/danfeng2)** 抓取最近 **3 天**的 Cloudflare 优选 IP，**带地理位置标注**（IP 原生位置 + CF 落地位置）。
 
 ## 订阅地址
 
@@ -35,22 +35,29 @@ IP:PORT#原生=Country · State · City · CF=大洲 · Country · City
 
 - [Telegram 公开频道 @danfeng2](https://t.me/danfeng2)（"CF代理，中转IP分享"，4.7K 订阅）
 - 通过 `https://t.me/s/danfeng2` 公共预览页抓取（**无需登录、无需 Telegram API key**）
-- 解析所有单 IP 帖 → 按发布时间排序 → 取**最新 4 条**
-  - 频道每天大约发 4 条单 IP 帖（间隔 6 小时）
-  - 跳过 CSV 附件、转发广告、Snippet 公告等其他类型消息
+- 跳过 CSV 附件、转发广告、Snippet 公告等其他类型消息
 
-> 💡 **为什么是 4 条**：频道每 6 小时发 1 条，1 天 4 条。每天 23:00 抓正好覆盖当天 4 条，且不需要做任何"窗口合并"逻辑。
+## 累积式 3 天窗口
+
+主订阅文件 `DSH-TG-CFIPS-DAILY.TXT` 由**最近 3 天的每日快照**合并去重而成。频道每天约发 4 条，所以：
+
+| 跑第几次 | 当天日期 | 快照数 | 主 TXT 总数 |
+|---------|---------|-------|------------|
+| 第 1 次 | D1 | 1 份 (4 条) | **4 条** |
+| 第 2 次 | D2 | 2 份 (8 条) | **≤ 8 条** |
+| 第 3 次 | D3 | 3 份 (≤12 条) | **≤ 12 条** ← 稳定 |
+| 第 4 次 | D4 | 仍 3 份（删 D1 加 D4） | 仍 ≤ 12 条 |
+
+> 实际数量略少于 4×3=12，因为：
+> - 同 IP 多日出现会去重
+> - 偶尔频道少发
 
 ## 自动更新
 
-- GitHub Actions 每天 **北京时间 23:00**（UTC 15:00）抓取一次
+- GitHub Actions 每天 **北京时间 23:00**（UTC 15:00）跑一次
   - cron 表达式：`0 15 * * *`
 - 内容有变化才 commit + push
 - 也支持手动触发：Actions 页 → `Update DSH-TG-CFIPS` → `Run workflow`
-
-### 当天未满 4 条时
-- 比如早于 12:00 北京时间跑（频道第 2 条还没发），TXT 会**少几条**
-- 跨天后新一轮重新抓：旧数据自然被新数据覆盖
 
 ## 本地运行
 
@@ -77,8 +84,14 @@ python3 fetch_tg_cfips.py
 
 ```
 .
-├── DSH-TG-CFIPS-DAILY.TXT         # 订阅源（最新 4 条，自动生成）
+├── DSH-TG-CFIPS-DAILY.TXT         # 订阅源（最近 3 天累计，自动生成）
+├── snapshots/                     # 每日快照（北京时间日期，最多 3 份）
+│   ├── 2026-09-12.txt
+│   ├── 2026-09-13.txt
+│   └── 2026-09-14.txt
 ├── fetch_tg_cfips.py              # 抓取脚本
 ├── .github/workflows/             # GitHub Actions 配置
 └── README.md
 ```
+
+`snapshots/` 下的历史快照**仅保留最近 3 天**，过期文件自动删除。需要追溯更早历史请直接 clone git 历史。

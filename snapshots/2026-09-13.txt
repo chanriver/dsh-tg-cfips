@@ -1,0 +1,4 @@
+45.89.234.48:40128#原生=Japan · Tokyo · Tokyo · CF=亚太 · 日本东京
+38.59.230.210:14338#原生=Germany · Hesse · Frankfurt am Main · CF=欧洲 · 荷兰阿姆斯特丹
+142.248.139.237:51982#原生=Japan · Tokyo · Tokyo · CF=亚太 · 日本东京
+23.249.18.144:8581#原生=Hong Kong · Kowloon · Hong Kong · CF=亚太 · 香港

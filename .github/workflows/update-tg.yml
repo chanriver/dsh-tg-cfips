@@ -1,7 +1,7 @@
 name: Update DSH-TG-CFIPS
 
 on:
-  # 每天 UTC 15:00（北京时间 23:00）抓取最新 4 条单 IP 帖
+  # 每天 UTC 15:00（北京时间 23:00）抓取当天已发布的单 IP 帖
   schedule:
     - cron: "0 15 * * *"
   workflow_dispatch:
@@ -27,27 +27,38 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Fetch top 4 CFIPs from @danfeng2
+      - name: Fetch recent CFIPs (3-day window) from @danfeng2
         run: python3 fetch_tg_cfips.py
 
       - name: Show result
         run: |
+          echo "--- snapshots/ ---"
+          if [ -d snapshots ]; then
+            ls -la snapshots/
+            for f in snapshots/*.txt; do
+              [ -f "$f" ] || continue
+              echo "### $f"
+              cat "$f"
+            done
+          fi
+          echo ""
           echo "--- DSH-TG-CFIPS-DAILY.TXT ---"
           if [ -s DSH-TG-CFIPS-DAILY.TXT ]; then
             cat DSH-TG-CFIPS-DAILY.TXT
           else
-            echo "(empty - no #CF优选IP posts found in top 4)"
+            echo "(empty - no posts found in window)"
           fi
 
       - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet DSH-TG-CFIPS-DAILY.TXT; then
-            echo "DSH-TG-CFIPS-DAILY.TXT 未变化，跳过提交。"
+          if git diff --quiet -- DSH-TG-CFIPS-DAILY.TXT snapshots/ && \
+             git diff --cached --quiet -- DSH-TG-CFIPS-DAILY.TXT snapshots/ 2>/dev/null; then
+            echo "无变化，跳过提交。"
             exit 0
           fi
-          git add DSH-TG-CFIPS-DAILY.TXT
+          git add DSH-TG-CFIPS-DAILY.TXT snapshots/
           ts=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-          git commit -m "chore: update DSH-TG-CFIPS-DAILY.TXT (${ts})"
+          git commit -m "chore: update TG CF IPs (3-day window) (${ts})"
           git push
