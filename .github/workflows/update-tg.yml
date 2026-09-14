@@ -1,0 +1,53 @@
+name: Update DSH-TG-CFIPS
+
+on:
+  # 每天 UTC 15:00（北京时间 23:00）抓取当天已发布的单 IP 帖
+  schedule:
+    - cron: "0 15 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - "fetch_tg_cfips.py"
+      - ".github/workflows/update-tg.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch today's CFIPs from @danfeng2
+        run: python3 fetch_tg_cfips.py
+
+      - name: Show result
+        run: |
+          echo "--- DSH-TG-CFIPS-DAILY.TXT ---"
+          if [ -s DSH-TG-CFIPS-DAILY.TXT ]; then
+            cat DSH-TG-CFIPS-DAILY.TXT
+          else
+            echo "(empty - no posts found today UTC yet)"
+          fi
+
+      - name: Commit and push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet DSH-TG-CFIPS-DAILY.TXT; then
+            echo "DSH-TG-CFIPS-DAILY.TXT 未变化，跳过提交。"
+            exit 0
+          fi
+          git add DSH-TG-CFIPS-DAILY.TXT
+          ts=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          git commit -m "chore: update DSH-TG-CFIPS-DAILY.TXT (${ts})"
+          git push
