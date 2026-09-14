@@ -1,3 +1,0 @@
-147.78.246.169:22658#原生=Japan · Tokyo · Tokyo · CF=亚太 · 日本东京
-154.21.85.197:39257#原生=United States · California · Los Angeles · CF=北美洲 · 美国洛杉矶
-98.85.241.163:443#原生=United States · Virginia · Ashburn · CF=北美洲 · 美国阿什伯恩
