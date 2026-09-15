@@ -1,1 +1,4 @@
 191.40.11.102:1891#原生=Germany · Hesse · Frankfurt am Main · CF=欧洲 · 德国法兰克福
+179.255.105.77:17950#原生=United States · California · Los Angeles · CF=北美洲 · 美国洛杉矶
+166.88.100.64:22222#原生=Japan · Osaka · Osaka · CF=亚太 · 大阪
+89.208.251.252:443#原生=United States · California · Los Angeles · CF=北美洲 · 美国洛杉矶

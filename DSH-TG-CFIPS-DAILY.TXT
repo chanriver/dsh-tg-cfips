@@ -1,9 +1,9 @@
 103.47.186.47:52492#原生=Japan · Tokyo · Tokyo · CF=亚太 · 日本东京
-142.248.139.237:51982#原生=Japan · Tokyo · Tokyo · CF=亚太 · 日本东京
 147.78.246.169:22658#原生=Japan · Tokyo · Tokyo · CF=亚太 · 日本东京
 154.21.85.197:39257#原生=United States · California · Los Angeles · CF=北美洲 · 美国洛杉矶
+166.88.100.64:22222#原生=Japan · Osaka · Osaka · CF=亚太 · 大阪
+179.255.105.77:17950#原生=United States · California · Los Angeles · CF=北美洲 · 美国洛杉矶
 191.40.11.102:1891#原生=Germany · Hesse · Frankfurt am Main · CF=欧洲 · 德国法兰克福
-23.249.18.144:8581#原生=Hong Kong · Kowloon · Hong Kong · CF=亚太 · 香港
-38.59.230.210:14338#原生=Germany · Hesse · Frankfurt am Main · CF=欧洲 · 荷兰阿姆斯特丹
-45.89.234.48:40128#原生=Japan · Tokyo · Tokyo · CF=亚太 · 日本东京
+23.149.108.112:62668#原生=Hong Kong · Kwai Tsing District · Kwai Chung · CF=亚太 · 日本东京
+89.208.251.252:443#原生=United States · California · Los Angeles · CF=北美洲 · 美国洛杉矶
 98.85.241.163:443#原生=United States · Virginia · Ashburn · CF=北美洲 · 美国阿什伯恩
